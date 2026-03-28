@@ -43,13 +43,6 @@ The flake exposes:
 - `overlays.default`
 - `devShells.default`
 
-## Files
-
-- `flake.nix` — flake entrypoint
-- `codexbar-cli.nix` — package definition
-- `update-codexbar-release.nu` — updater script for new upstream releases
-- `.github/workflows/update-codexbar-release.yml` — daily auto-update workflow
-
 ## Updating
 
 Update manually:

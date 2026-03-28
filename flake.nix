@@ -29,15 +29,6 @@
           type = "app";
           program = "${codexbar-cli}/bin/codexbar";
         };
-
-        devShells.default = pkgs.mkShell {
-          packages = [ codexbar-cli ];
-
-          shellHook = ''
-            echo "CodexBar CLI shell"
-            echo "Run: codexbar --help"
-          '';
-        };
       }
     )
     // {
