@@ -1,0 +1,44 @@
+name: Update CodexBar release
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * *"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
+
+      - name: Update packaged release
+        run: ./update-codexbar-release.nu
+
+      - name: Build package
+        run: nix build .#codexbar-cli -L
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "chore: update CodexBar CLI to latest release"
+          branch: ci/update-codexbar-release
+          delete-branch: true
+          title: "chore: update CodexBar CLI to latest release"
+          body: |
+            Automated update of `codexbar-cli.nix` to the latest upstream GitHub release.
+
+            - updates `version`
+            - refreshes x86_64-linux and aarch64-linux hashes
+            - verifies the package builds on GitHub Actions
+          labels: |
+            dependencies
+            automated
