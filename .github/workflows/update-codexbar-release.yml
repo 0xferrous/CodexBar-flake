@@ -21,6 +21,8 @@ jobs:
         uses: cachix/install-nix-action@v31
 
       - name: Update packaged release
+        env:
+          NIX_PATH: nixpkgs=flake:nixpkgs
         run: ./update-codexbar-release.nu
 
       - name: Build package
