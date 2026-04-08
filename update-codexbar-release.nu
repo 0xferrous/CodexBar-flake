@@ -19,7 +19,7 @@ def latest-release [] {
 }
 
 def prefetch-sri [url: string] {
-  let raw_hash = (^nix-prefetch-url --type sha256 --unpack $url | str trim)
+  let raw_hash = (^nix-prefetch-url --type sha256 $url | str trim)
   ^nix hash to-sri --type sha256 $raw_hash | str trim
 }
 
@@ -60,8 +60,8 @@ def main [] {
   let updated = (
     $text
     | replace-once 'version = "[^"]+";' $"version = \"($version)\";"
-    | replace-once '(x86_64-linux = \{\n\s+name = "CodexBarCLI-v)\$\{version\}(-linux-x86_64.tar.gz";\n\s+hash = ")[^"]+(";)' $"${1}${version}${2}($x86_hash)${3}"
-    | replace-once '(aarch64-linux = \{\n\s+name = "CodexBarCLI-v)\$\{version\}(-linux-aarch64.tar.gz";\n\s+hash = ")[^"]+(";)' $"${1}${version}${2}($aarch64_hash)${3}"
+    | replace-once '(x86_64-linux = \{\n\s+name = "CodexBarCLI-v\$\{version\}-linux-x86_64.tar.gz";\n\s+hash = ")[^"]+(";)' $"${1}($x86_hash)${2}"
+    | replace-once '(aarch64-linux = \{\n\s+name = "CodexBarCLI-v\$\{version\}-linux-aarch64.tar.gz";\n\s+hash = ")[^"]+(";)' $"${1}($aarch64_hash)${2}"
   )
 
   $updated | save --force $package_file
