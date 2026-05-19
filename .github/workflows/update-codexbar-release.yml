@@ -7,7 +7,6 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
   update:
@@ -28,20 +27,15 @@ jobs:
       - name: Build package
         run: nix build .#codexbar-cli -L
 
-      - name: Create pull request
-        uses: peter-evans/create-pull-request@v7
-        with:
-          token: ${{ secrets.CREATE_PR_TOKEN != '' && secrets.CREATE_PR_TOKEN || github.token }}
-          commit-message: "chore: update CodexBar CLI to latest release"
-          branch: ci/update-codexbar-release
-          delete-branch: true
-          title: "chore: update CodexBar CLI to latest release"
-          body: |
-            Automated update of `codexbar-cli.nix` to the latest upstream GitHub release.
+      - name: Commit and push changes
+        run: |
+          if git diff --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
 
-            - updates `version`
-            - refreshes x86_64-linux and aarch64-linux hashes
-            - verifies the package builds on GitHub Actions
-          labels: |
-            dependencies
-            automated
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add codexbar-cli.nix
+          git commit -m "chore: update CodexBar CLI to latest release"
+          git push origin HEAD:main
