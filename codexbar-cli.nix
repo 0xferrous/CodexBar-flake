@@ -2,16 +2,16 @@
 
 let
   pname = "codexbar-cli";
-  version = "0.46.0";
+  version = "0.47.0";
 
   assets = {
     x86_64-linux = {
       name = "CodexBarCLI-v${version}-linux-x86_64.tar.gz";
-      hash = "sha256-tpr+Hp65oTgsXT2zVwh5BGZtK4dVLFYiwgi4Cy9Ijv0=";
+      hash = "sha256-Qv+L/3kDUHjJHIWdC9n3uvWCF8qYj6o9sHG/DICjAtU=";
     };
     aarch64-linux = {
       name = "CodexBarCLI-v${version}-linux-aarch64.tar.gz";
-      hash = "sha256-STN7ny8g8dn7+l9cvvrngRzl+TsXoeFaLWVTJy69A7M=";
+      hash = "sha256-jm+u2P6JqihzH+7PLn3hP4CBSbJdivKZMZ0pv6K4kYQ=";
     };
   };
 
